@@ -1,5 +1,7 @@
-from kafka import KafkaConsumer
 import json
+from collections import Counter
+
+from kafka import KafkaConsumer
 
 
 def get_consumer(url: str) -> KafkaConsumer:
@@ -14,10 +16,10 @@ def get_consumer(url: str) -> KafkaConsumer:
 
 if __name__ == '__main__':
     consumer = get_consumer('localhost:9092')
+    counter = Counter()
     for message in consumer:
-        # message value and key are raw bytes -- decode if necessary!
-        # e.g., for unicode: `message.value.decode('utf-8')`
-        print("%s:%d:%d: key=%s value=%s" % (message.topic, message.partition,
-                                             message.offset, message.key,
-                                             message.value))
-        print(json.loads(message.value.decode('utf-8')))
+        data = json.loads(message.value.decode('utf-8'))
+        print(data)
+
+        counter[data['uid']] += 1
+        print(counter)
