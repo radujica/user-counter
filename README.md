@@ -2,8 +2,9 @@
 - This was developed on Windows, however should 'just work' on other environments due to the conda environment.
 No Linux machine available atm to develop on.
 - Kafka version is 2.11-2.4.0 with data stored in `data/kafka` & `data/zookeeper`
-    
-    
+
+
+
     conda create --name doodle python=3.8
     source activate doodle
     conda install -c conda-forge kafka-python
