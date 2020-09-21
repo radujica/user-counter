@@ -24,7 +24,7 @@ No Linux machine available atm to develop on.
 
     source activate doodle
     # produce raw data, 2 options (first tested)
-    python producer.py  # 1
+    python producer.py  # 1 (it will look for the unzipped data/stream.jsonl)
     gzcat stream.gz | kafka-console-producer --broker-list localhost:9092 --topic feed  # 2
     # first the consumer which buckets the data
     python bucketer.py
