@@ -42,7 +42,7 @@ if __name__ == '__main__':
 
     for message in consumer:
         raw_data = json.loads(message.value)
-        # select only relevant data
+        # select only relevant data to reduce serialization time
         selected_data = {k: v for k, v in raw_data.items() if k in {'ts', 'uid'}}
         # add the bucket
         selected_data['bucket'] = bucket_timestamp(raw_data['ts'])
