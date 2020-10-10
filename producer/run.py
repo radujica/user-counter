@@ -1,6 +1,5 @@
 import json
 import logging
-import time
 from typing import Any, Dict
 
 from confluent_kafka import Producer
@@ -25,7 +24,9 @@ def create_topic_if_not_exists(client: AdminClient, topic: str) -> None:
         create_topic(client, topic)
         logger.info('Created topic {}'.format(topic))
     else:
-        logger.info('Topic {} already exists. Using this existing topic'.format(topic))
+        logger.info(
+            'Topic {} already exists. Using this existing topic'.format(topic)
+        )
 
 
 def process_event(data: Dict[str, Any]) -> Dict[str, Any]:
@@ -39,7 +40,12 @@ def report_delivery(error: str, message: str) -> None:
     if error is not None:
         logger.info('Message delivery failed: {}'.format(error))
     else:
-        logger.info('Message delivered to {} [{}]'.format(message.topic(), message.partition()))
+        logger.info(
+            'Message delivered to {} [{}]'.format(
+                message.topic(),
+                message.partition()
+            )
+        )
 
 
 def run() -> None:
