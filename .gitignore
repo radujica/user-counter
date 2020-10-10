@@ -1,2 +1,10 @@
 .idea
 *.iml
+
+.vscode
+Pipfile
+Pipfile.lock
+
+__pycache__
+
+data
