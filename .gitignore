@@ -7,4 +7,6 @@ Pipfile.lock
 
 __pycache__
 
+.gradle
+
 data
