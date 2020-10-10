@@ -39,4 +39,9 @@ services:
       - app-net
     environment:
       - GF_INSTALL_PLUGINS=redis-datasource
-      - GF_PLUGIN_DIR=/pluginfolder
+  producer:
+    build: ./producer
+    image: 'user-counter/producer'
+    depends_on:
+      - zookeeper-server
+      - kafka-server
