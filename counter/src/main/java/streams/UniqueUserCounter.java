@@ -1,17 +1,14 @@
-package counter;
+package streams;
+
+import java.util.Properties;
 
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.kstream.KStream;
-import org.apache.kafka.streams.kstream.KTable;
-import org.apache.kafka.streams.kstream.Produced;
 
-import java.util.Arrays;
-import java.util.Properties;
-import java.util.regex.Pattern;
-
+import redis.clients.jedis.Jedis;
 
 public class UniqueUserCounter {
     static final String inputTopic = "feed";
@@ -20,14 +17,19 @@ public class UniqueUserCounter {
         final String bootstrapServers = args.length > 0 ? args[0] : "localhost:9092";
         final Properties streamsConfiguration = getStreamsConfiguration(bootstrapServers);
 
-        final StreamsBuilder builder = new StreamsBuilder();
-        createWordCountStream(builder);
-        final KafkaStreams streams = new KafkaStreams(builder.build(), streamsConfiguration);
+        // final Jedis jedis = new Jedis("localhost", 6379);
+        // long returnValue = jedis.pfadd("tsbucket", "uid");
+        // System.out.println(returnValue);
 
-        streams.cleanUp();
-        streams.start();
+        // final StreamsBuilder builder = new StreamsBuilder();
+        // createWordCountStream(builder);
+        // final KafkaStreams streams = new KafkaStreams(builder.build(), streamsConfiguration);
 
-        Runtime.getRuntime().addShutdownHook(new Thread(streams::close));
+        // streams.cleanUp();
+        // streams.start();
+
+        // Runtime.getRuntime().addShutdownHook(new Thread(streams::close));
+        // jedis.close();
     }
 
     static Properties getStreamsConfiguration(final String bootstrapServers) {
@@ -48,20 +50,6 @@ public class UniqueUserCounter {
 
     // TODO THIS
     static void createWordCountStream(final StreamsBuilder builder) {
-        final KStream<String, String> textLines = builder.stream(inputTopic);
-        final Pattern pattern = Pattern.compile("\\W+", Pattern.UNICODE_CHARACTER_CLASS);
-
-        // final KTable<String, Long> wordCounts = textLines
-        // Split each text line, by whitespace, into words.  The text lines are the record
-        // values, i.e. we can ignore whatever data is in the record keys and thus invoke
-        // `flatMapValues()` instead of the more generic `flatMap()`.
-        // .flatMapValues(value -> Arrays.asList(pattern.split(value.toLowerCase())))
-        // Group the split data by word so that we can subsequently count the occurrences per word.
-        // This step re-keys (re-partitions) the input data, with the new record key being the words.
-        // Note: No need to specify explicit serdes because the resulting key and value types
-        // (String and String) match the application's default serdes.
-        // .groupBy((keyIgnored, word) -> word)
-        // Count the occurrences of each word (record key).
-        // .count();
+        final KStream<String, Event> textLines = builder.stream(inputTopic);
     }
 }

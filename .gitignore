@@ -8,6 +8,10 @@ Pipfile.lock
 __pycache__
 
 .gradle
+.settings
+.project
+.classpath
+counter/bin
 counter/build
 
 data

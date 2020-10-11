@@ -24,8 +24,8 @@ def produce_data() -> Iterator[Dict[str, Any]]:
 
 
 # per 60 seconds; could create different topics for each granularity
-def bucket_timestamp(timestamp: int) -> str:
+def bucket_timestamp(timestamp: int) -> int:
     dt = datetime.fromtimestamp(timestamp)
     bucket = datetime(dt.year, dt.month, dt.day, dt.hour, dt.minute)
 
-    return str(int(bucket.timestamp()))
+    return int(bucket.timestamp())
