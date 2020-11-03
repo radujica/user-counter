@@ -1,4 +1,4 @@
-FROM python:3.8.6-alpine
+FROM python:3.8.6-slim
 
 # don't buffer output
 ENV PYTHONUNBUFFERED 1
@@ -10,9 +10,6 @@ COPY ./run.py /app/
 
 WORKDIR /app
 
-RUN apk add --no-cache --virtual .build-deps gcc musl-dev \
-    && apk add --no-cache librdkafka-dev \
-    && pip install --no-cache-dir . \
-    && apk del .build-deps
+RUN pip install --no-cache-dir .
 
 CMD python run.py
