@@ -60,7 +60,7 @@ def run() -> None:
         producer.produce(
             TOPIC,
             value=json.dumps(event).encode('utf-8'),
-            key=event[BUCKET],
+            key=str(event[BUCKET]).encode('utf-8'),
             callback=report_delivery
         )
         random_sleep_between(0.0, 3.0)
