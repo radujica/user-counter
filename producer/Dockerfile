@@ -1,7 +1,7 @@
 FROM python:3.8.6-alpine
 
 # don't buffer output
-ENV PYTHONBUFFERED 1
+ENV PYTHONUNBUFFERED 1
 
 ADD producer /app/producer
 COPY ./requirements.txt /app/
