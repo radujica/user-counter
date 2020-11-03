@@ -7,6 +7,7 @@ networks:
 services:
   zookeeper-server:
     image: 'bitnami/zookeeper:latest'
+    hostname: zookeeper-server
     networks:
       - app-net
     ports:
@@ -15,18 +16,23 @@ services:
       - ALLOW_ANONYMOUS_LOGIN=yes
   kafka-server:
     image: 'bitnami/kafka:latest'
+    hostname: kafka-server
     networks:
       - app-net
     ports:
-      - '9092:9092'
+      - '9093:9093'
     environment:
-      - KAFKA_ZOOKEEPER_CONNECT=zookeeper-server:2181
-      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka-server:9092
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper-server:2181
+      - KAFKA_CFG_LISTENERS=CLIENT://:9092,EXTERNAL://:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka-server:9092,EXTERNAL://localhost:9093
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - KAFKA_INTER_BROKER_LISTENER_NAME=CLIENT
       - ALLOW_PLAINTEXT_LISTENER=yes
     depends_on:
       - zookeeper-server
   redis:
     image: 'bitnami/redis:latest'
+    hostname: redis
     networks:
       - app-net
     ports:
@@ -35,6 +41,7 @@ services:
       - ALLOW_EMPTY_PASSWORD=yes
   grafana:
     image: 'bitnami/grafana:latest'
+    hostname: grafana
     networks:
       - app-net
     ports:
