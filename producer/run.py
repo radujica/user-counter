@@ -12,7 +12,7 @@ from producer.utils import random_sleep_between
 
 
 TOPIC = 'feed'
-CONFIG = {'bootstrap.servers': ':9092'}
+CONFIG = {'bootstrap.servers': 'kafka-server:9092'}
 
 
 logging.basicConfig(level=logging.INFO)
