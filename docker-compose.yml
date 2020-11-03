@@ -27,23 +27,25 @@ services:
       - zookeeper-server
   redis:
     image: 'bitnami/redis:latest'
+    networks:
+      - app-net
     ports:
       - '6379:6379'
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
-    networks:
-      - app-net
   grafana:
     image: 'bitnami/grafana:latest'
-    ports:
-      - '3000:3000'
     networks:
       - app-net
+    ports:
+      - '3000:3000'
     environment:
       - GF_INSTALL_PLUGINS=redis-datasource
   producer:
     build: ./producer
     image: 'user-counter/producer'
+    networks:
+      - app-net
     depends_on:
       - zookeeper-server
       - kafka-server
